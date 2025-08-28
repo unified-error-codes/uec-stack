@@ -8,7 +8,7 @@ For the overall vision please see our main [**manifesto repository**](https://gi
 
 ## Software Components Concept
 
-* **/backend/**: The central backend service. It receives, validates, and persists error codes from chargers and exposes a REST API for the frontend. Its primary focus is on robust error handling over OCPP, as defined in the DIN DKE SPEC 99003 standard.
+* **/cpms/**: The core backend service of the UEC stack, acting as a specialized, UEC-native CPMS. It ingests, analyzes and processes unified error codes from EVSEs and provides a REST API for the frontend dashboard. Includes a dedicated **backend-to-backend** API for seamless integration with existing CPMS platforms, allowing them to easily become UEC-compliant.
 * **/frontend/**: A web-based dashboard (GUI) for Charge Point Operators (CPOs) and technicians. It provides a detailed, user-friendly presentation of error codes.
 * **/evse/**: A software designed for seamless integration into any EVSE firmware stack. It minimizes the effort to become UEC compliant by providing **out-of-the-box** error handling for common hardware components.
 * **/evse-integrations/everest-module/**: A specific integration module for the [EVerest](https://github.com/EVerest/EVerest) open-source EVSE platform, enabling it to report UEC-compliant error codes.
