@@ -31,3 +31,7 @@ npm install
 ```bash
 npm run dev
 ```
+
+### UI
+
+![Charts UI](./doc/charts.png)
