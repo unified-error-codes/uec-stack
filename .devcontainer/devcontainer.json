@@ -1,0 +1,21 @@
+{
+  "runArgs": ["--name", "uec-devcontainer"],
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "twxs.cmake",
+        "ms-vscode.cmake-tools",
+        "ms-python.python",
+        "lextudio.restructuredtext",
+        "trond-snekvik.simple-rst",
+        "ritwickdey.liveserver",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-python.black-formatter"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+csds-ui/.DS_Store
+csds-ui/.env
+csds-ui/node_modules/
+
+# React Router
+csds-ui/.react-router/
+csds-ui/build/
+
+evse-agent/build/
