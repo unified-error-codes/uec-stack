@@ -1,5 +1,5 @@
 #pragma once
-#include <chrono>
+
 #include <memory>
 #include <string>
 
@@ -11,10 +11,9 @@ public:
   explicit control_pilot(unsigned connector);
   ~control_pilot();
 
-  void voltage_high(float voltage);
+  void voltage_high(float voltage, const std::string &state);
   void voltage_low(float voltage);
-  void duty_cycle(float duty_cycle);
-  void state(std::string state);
+  void duty_cycle(unsigned duty_cycle);
 
 private:
   class impl;

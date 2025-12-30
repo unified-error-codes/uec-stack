@@ -20,6 +20,12 @@ RUN apt install -y --no-install-recommends \
     rapidjson-dev \
     python3 \
     python-is-python3 \
+    git \
+    opentelemetry-cpp-dev \
+    libabsl-dev \
+    libgrpc++-dev \
+    pkg-config \
+    protobuf-compiler-grpc \
     && apt-file update
 
 

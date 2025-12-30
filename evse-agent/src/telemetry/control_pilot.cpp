@@ -1,34 +1,61 @@
+#include <map>
+#include <opentelemetry/metrics/provider.h>
+#include <opentelemetry/semconv/incubating/hw_metrics.h>
 #include <uec/telemetry/control_pilot.h>
+
+namespace otl = opentelemetry;
 
 namespace uec {
 namespace telemetry {
 
-// TODO: Implement data logging via OpenTelemetry
-
 class control_pilot::impl {
 public:
-  void voltage_high(float) {}
-  void voltage_low(float) {}
-  void duty_cycle(float) {}
-  void state(std::string) {}
+  explicit impl(unsigned connector)
+      : _meter(make_meter(connector)),
+        _voltage_high(_meter->CreateDoubleGauge(
+            "evse.cp.voltage.high", "Control Pilot High Voltage.", "V")),
+        _voltage_low(_meter->CreateDoubleGauge(
+            "evse.cp.voltage.low", "Control Pilot Low Voltage.", "V")),
+        _duty(_meter->CreateInt64Gauge("evse.cp.duty_cycle",
+                                       "Control Pilot Duty Cycle.", "%")) {}
+
+  void voltage_high(float voltage, const std::string &state) {
+    auto attrs = std::map<std::string, std::string>{{"state", state}};
+    _voltage_high->Record(voltage,
+                          opentelemetry::common::KeyValueIterableView{attrs});
+  }
+  void voltage_low(float voltage) { _voltage_low->Record(voltage); }
+  void duty_cycle(unsigned duty) { _duty->Record(duty); }
+
+private:
+  otl::nostd::shared_ptr<otl::metrics::Meter> make_meter(unsigned connector) {
+    auto attrs = std::map<std::string, std::string>{
+        {"connector", std::to_string(connector)}};
+    opentelemetry::common::KeyValueIterableView attributes{attrs};
+    return otl::metrics::Provider::GetMeterProvider()->GetMeter(
+        "control_pilot", "1.0.0", "", &attributes);
+  }
+
+  otl::nostd::shared_ptr<otl::metrics::Meter> _meter;
+  otl::nostd::unique_ptr<otl::metrics::Gauge<double>> _voltage_high;
+  otl::nostd::unique_ptr<otl::metrics::Gauge<double>> _voltage_low;
+  otl::nostd::unique_ptr<otl::metrics::Gauge<int64_t>> _duty;
 };
 
 control_pilot::control_pilot(unsigned connector)
-    : _impl(std::make_unique<impl>()) {}
+    : _impl(std::make_unique<impl>(connector)) {}
 
 control_pilot::~control_pilot() = default;
 
-void control_pilot::voltage_high(float voltage) {
-  _impl->voltage_high(voltage);
+void control_pilot::voltage_high(float voltage, const std::string &state) {
+  _impl->voltage_high(voltage, state);
 }
 
 void control_pilot::voltage_low(float voltage) { _impl->voltage_low(voltage); }
 
-void control_pilot::duty_cycle(float duty_cycle) {
+void control_pilot::duty_cycle(unsigned duty_cycle) {
   _impl->duty_cycle(duty_cycle);
 }
-
-void control_pilot::state(std::string state) { _impl->state(std::move(state)); }
 
 } // namespace telemetry
 } // namespace uec

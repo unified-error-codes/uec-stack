@@ -104,9 +104,8 @@ void everest::handle_power_path_controller(const std::string &payload) {
 
   auto &cp = get_cp_telemetry(ppc.connector);
   cp.duty_cycle(ppc.cp_pwm_duty_cycle);
-  cp.voltage_high(ppc.cp_voltage_high);
+  cp.voltage_high(ppc.cp_voltage_high, ppc.cp_state);
   cp.voltage_low(ppc.cp_voltage_low);
-  cp.state(ppc.cp_state);
 }
 
 uec::telemetry::control_pilot &everest::get_cp_telemetry(unsigned connector) {

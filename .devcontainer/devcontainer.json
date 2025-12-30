@@ -14,7 +14,8 @@
         "trond-snekvik.simple-rst",
         "ritwickdey.liveserver",
         "llvm-vs-code-extensions.vscode-clangd",
-        "ms-python.black-formatter"
+        "ms-python.black-formatter",
+        "cheshirekow.cmake-format"
       ]
     }
   }
