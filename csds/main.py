@@ -2,8 +2,26 @@ import argparse
 import asyncio
 import logging
 import os
+import logging
 
-from uec_csds.csds import run
+from csds.uec_csds.csds import run
+from csds.uec_csds.db import init_db
+
+
+from fastapi import FastAPI
+from csds.uec_csds.api.sessions import router as sessions_router
+
+
+def create_app() -> FastAPI:
+    init_db()
+    app = FastAPI(title="UEC Stack – CSDS")
+
+    app.include_router(sessions_router)
+
+    return app
+
+
+app = create_app()
 
 
 def configure_logging():
