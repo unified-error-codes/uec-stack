@@ -1,3 +1,5 @@
+import { SessionsContent } from '~/ui/templates/outlets/sessions'
+
 export default function Sessions() {
-  return <div>Sessions</div>;
+  return <SessionsContent />
 }
