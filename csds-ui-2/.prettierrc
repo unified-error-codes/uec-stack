@@ -11,5 +11,7 @@
   "quoteProps": "consistent",
   "tabWidth": 2,
   "useTabs": false,
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindStylesheet": "./app/app.css"
 }
