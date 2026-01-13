@@ -27,6 +27,17 @@ from ..utils import read_diagnostic_file
 from ..engine import Engine
 from typing import cast
 
+def get_error_code(sn: call.StatusNotification) -> str:
+    return (
+        sn.error_code
+        if sn.error_code != ChargePointErrorCode.other_error
+        else sn.vendor_error_code or "Unknown Error"
+    )
+
+
+def or_now(ts: Optional[str]) -> str:
+    return ts or datetime.now(timezone.utc).isoformat()
+
 
 class ChargePoint16(cp):
     def __init__(self, ftp, engine, *args, **kwargs):
@@ -245,7 +256,7 @@ class ChargePoint16(cp):
 
             if session and not session.has_entered_charging():
                 session.ended_silent(
-                    sn.timestamp or datetime.now(timezone.utc).isoformat(),
+                    or_now(sn.timestamp),
 
                     "PREPARING_ABORTED_BEFORE_CHARGING",
                 )
@@ -257,7 +268,7 @@ class ChargePoint16(cp):
         if sn.status == ChargePointStatus.preparing:
             self._sessions[sn.connector_id] = Session(
                 self,
-                sn.timestamp or datetime.now(timezone.utc).isoformat(),
+                or_now(sn.timestamp),
 
             )
         if sn.status == ChargePointStatus.charging:
@@ -272,9 +283,9 @@ class ChargePoint16(cp):
                 self._sessions[sn.connector_id] = session
             session.ended(or_now(sn.timestamp), get_error_code(sn))
             await self._engine.handle_failed_session(
-                cast(Session, session),
-                self._sessions.pop(sn.connector_id, None)
+                cast(Session, session)
             )
+            self._sessions.pop(sn.connector_id, None)
 
 
 class Session:
