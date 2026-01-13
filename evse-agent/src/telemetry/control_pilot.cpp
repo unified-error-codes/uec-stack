@@ -1,6 +1,4 @@
-#include <map>
 #include <opentelemetry/metrics/provider.h>
-#include <opentelemetry/semconv/incubating/hw_metrics.h>
 #include <uec/telemetry/control_pilot.h>
 
 namespace otl = opentelemetry;
@@ -20,20 +18,16 @@ public:
                                        "Control Pilot Duty Cycle.", "%")) {}
 
   void voltage_high(float voltage, const std::string &state) {
-    auto attrs = std::map<std::string, std::string>{{"state", state}};
-    _voltage_high->Record(voltage,
-                          opentelemetry::common::KeyValueIterableView{attrs});
+    _voltage_high->Record(voltage, {{"state", state}});
   }
   void voltage_low(float voltage) { _voltage_low->Record(voltage); }
   void duty_cycle(unsigned duty) { _duty->Record(duty); }
 
 private:
   otl::nostd::shared_ptr<otl::metrics::Meter> make_meter(unsigned connector) {
-    auto attrs = std::map<std::string, std::string>{
-        {"connector", std::to_string(connector)}};
-    opentelemetry::common::KeyValueIterableView attributes{attrs};
     return otl::metrics::Provider::GetMeterProvider()->GetMeter(
-        "control_pilot", "1.0.0", "", &attributes);
+        "control_pilot", "1.0.0", "",
+        {{"connector", std::to_string(connector)}});
   }
 
   otl::nostd::shared_ptr<otl::metrics::Meter> _meter;
