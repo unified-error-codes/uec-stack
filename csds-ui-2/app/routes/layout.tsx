@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router'
 import { MainNavigation } from '~/navigation/navigation'
+import { PageFrame } from '~/ui/frame'
 
 export default function Layout({
   loaderData,
@@ -7,6 +8,10 @@ export default function Layout({
   params,
   matches,
 }: any) {
+  return <PageFrame />
+}
+
+function InitialLayout({ loaderData, actionData, params, matches }: any) {
   return (
     <div style={{ padding: '16px' }}>
       ----------------------------------

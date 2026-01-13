@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { NavLink } from 'react-router'
+import { Button } from '../ui/components/button'
 
 export function MainNavigation() {
   return (
@@ -26,13 +27,13 @@ export const NavLinkItem = (props: NavLinkItemProps) => {
       to={target}
       end
       style={{
-        padding: '8px 16px',
-        border: '1px solid lightblue',
-        backgroundColor: 'lightblue',
+        // padding: '8px 16px',
+        // border: '1px solid lightblue',
+        // backgroundColor: 'lightblue',
         ...props.style,
       }}
     >
-      {label}
+      <Button color='blue'>{label}</Button>
     </NavLink>
   )
 }
