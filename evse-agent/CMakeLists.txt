@@ -4,6 +4,12 @@ project(uec-evse VERSION 0.1.0 DESCRIPTION "UEC EVSE diagnostic components" LANG
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_compile_options(
+    $<$<CONFIG:Debug>:-Wall>
+    $<$<CONFIG:Debug>:-Werror>
+    $<$<CONFIG:Debug>:-O0>
+)
+
 add_compile_definitions(
     RAPIDJSON_HAS_STDSTRING=1
     OPENTELEMETRY_ABI_VERSION_NO=2)
