@@ -1,5 +1,5 @@
 {
-  "runArgs": ["--name", "uec-devcontainer"],
+  "runArgs": ["--name", "uec-devcontainer", "--network", "host"],
   "build": {
     "dockerfile": "Dockerfile"
   },
