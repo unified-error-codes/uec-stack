@@ -19,7 +19,7 @@ auto make_topic(std::string topic) {
 }
 
 struct power_path_controller {
-  unsigned connector = 0;
+  unsigned connector_id = 0;
   double cp_voltage_high = 0.0;
   double cp_voltage_low = 0.0;
   double cp_pwm_duty_cycle = 0.0;
@@ -48,7 +48,7 @@ power_path_controller parse(const std::string &payload) {
     throw std::runtime_error("JSON parse error");
   }
 
-  ppc.connector = get_member<unsigned>(doc, "connector");
+  ppc.connector_id = get_member<unsigned>(doc, "connector_id");
   ppc.cp_voltage_high = get_member<double>(doc, "cp_voltage_high");
   ppc.cp_voltage_low = get_member<double>(doc, "cp_voltage_low");
   ppc.cp_pwm_duty_cycle = get_member<double>(doc, "cp_pwm_duty_cycle");
@@ -102,7 +102,7 @@ bool everest::handle_recv_error(boost::mqtt5::error_code ec) {
 void everest::handle_power_path_controller(const std::string &payload) {
   auto ppc = parse(payload);
 
-  auto &cp = get_cp_telemetry(ppc.connector);
+  auto &cp = get_cp_telemetry(ppc.connector_id);
   cp.duty_cycle(ppc.cp_pwm_duty_cycle);
   cp.voltage_high(ppc.cp_voltage_high, ppc.cp_state);
   cp.voltage_low(ppc.cp_voltage_low);
