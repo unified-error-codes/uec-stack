@@ -22,8 +22,13 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(uec-telemetry STATIC
     src/telemetry/control_pilot.cpp
 )
+target_link_libraries(uec-telemetry
+    opentelemetry-cpp::metrics)
 
 add_executable(uec-evse
     src/everest.cpp
     src/main.cpp)
-target_link_libraries(uec-evse uec-telemetry)
+target_link_libraries(uec-evse
+    uec-telemetry
+    opentelemetry-cpp::metrics
+    opentelemetry-cpp::ostream_metrics_exporter)
