@@ -1,8 +1,7 @@
 {
-  "runArgs": ["--name", "uec-devcontainer", "--network", "host"],
+  "runArgs": ["--name", "uec-agent-devcontainer", "--network", "host"],
   "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
+    "dockerfile": "Dockerfile"
   },
   "customizations": {
     "vscode": {
