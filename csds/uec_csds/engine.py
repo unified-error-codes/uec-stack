@@ -1,4 +1,4 @@
-from .database import Database
+from .db.database import Database
 from typing import Protocol
 import logging
 
@@ -14,8 +14,8 @@ class Session(Protocol):
 
 
 class Engine:
-    def __init__(self, data_dir: str):
-        self._db = Database(data_dir)
+    def __init__(self, db: Database):
+        self._db = db
 
     async def handle_failed_session(self, session: Session):
         log = await session.get_diagnostic()
@@ -26,6 +26,7 @@ class Engine:
         )
         self._db.insert_session(
             session.charger_id(),
+            1,  # FIXME: connector_id
             session.error_code(),
             session.timestamp(),
             log,

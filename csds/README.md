@@ -35,8 +35,10 @@ pip install -r requirements.txt
 ### Run locally
 
 ```bash
-uvicorn csds.main:app --reload
+python main.py
 ```
+
+## HTTP API
 
 The API will be available at:
 
@@ -52,30 +54,10 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## Health Check
-
-```http
-GET /api/v1/healthz
-```
-
-Response:
-```json
-{
-  "status": "ok",
-  "dependencies": {
-    "storage": "ok"
-  }
-}
-```
-
----
-
-## API
-
 ### List faulted sessions
 
-Returns charging sessions with status `Faulted`,
-ordered by failure timestamp (newest first).
+Returns charging sessions considered faulted, i.e. sessions that ended with an error.
+Ordered by the stop timestamp (newest first).
 
 ```http
 GET /api/v1/sessions?limit=50&offset=0
@@ -88,7 +70,8 @@ Response:
   "items": [
     {
       "session_id": "sess-003",
-      "timestamp": "2026-01-05T09:05:00Z",
+      "start_timestamp": "2026-01-05T09:05:00Z",
+      "stop_timestamp": "2026-01-05T09:10:00Z",
       "charge_point_id": "CP-001",
       "connector_id": 1,
       "error_code": "COMM_TIMEOUT"

@@ -1,10 +1,16 @@
-SCHEMA_SQL = """
-CREATE TABLE IF NOT EXISTS sessions (
-  session_id TEXT PRIMARY KEY,
-  failure_timestamp TIMESTAMPTZ NOT NULL,
-  charge_point_id TEXT NOT NULL,
-  connector_id INTEGER NOT NULL,
-  error_code TEXT,
-  status TEXT NOT NULL
-);
-"""
+from sqlalchemy import Column, Integer, LargeBinary, String, DateTime
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
+
+
+class Session(Base):
+    __tablename__ = "sessions"
+
+    session_id = Column(String, primary_key=True)
+    start_timestamp = Column(DateTime(timezone=True), nullable=False)
+    stop_timestamp = Column(DateTime(timezone=True), nullable=False, index=True)
+    charge_point_id = Column(String, nullable=False)
+    connector_id = Column(Integer, nullable=False)
+    error_code = Column(String)
+    telemetry = Column(LargeBinary)

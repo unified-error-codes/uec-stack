@@ -1,20 +1,19 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Request, Depends
+from .schemas import FaultedSessionsResponse
+from uec_csds.db.database import Database
 
-from csds.uec_csds.api.schemas import FaultedSessionsResponse
-from csds.uec_csds.db.postgres_queries import (
-    get_faulted_sessions,
-    count_faulted_sessions,
-)
+router = APIRouter()
 
-router = APIRouter(prefix="/api/v1", tags=["sessions"])
+
+def get_database(request: Request) -> Database:
+    return request.app.state.db
 
 
 @router.get("/sessions", response_model=FaultedSessionsResponse)
 def list_faulted_sessions(
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
+    db: Database = Depends(get_database),
 ):
-    items = get_faulted_sessions(limit=limit, offset=offset)
-    total = count_faulted_sessions()
-
-    return {"total": total, "items": items}
+    [sessions, total] = db.get_faulted_sessions(limit=limit, offset=offset)
+    return {"total": total, "items": sessions}
