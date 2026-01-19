@@ -1,9 +1,7 @@
 {
-  "runArgs": ["--name", "uec-csds-devcontainer", "--network", "host"],
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspaces/csds",
   "customizations": {
     "vscode": {
       "extensions": [

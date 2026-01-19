@@ -4,7 +4,7 @@ from psycopg2.extras import RealDictCursor
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://uec:uec@localhost:5432/uec_csds",
+    "postgresql://localhost:5432",
 )
 
 connection = None
