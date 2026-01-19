@@ -13,7 +13,7 @@ public:
 
   void voltage_high(float voltage, const std::string &state);
   void voltage_low(float voltage);
-  void duty_cycle(unsigned duty_cycle);
+  void duty_cycle(float duty_cycle);
 
 private:
   class impl;

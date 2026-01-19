@@ -26,8 +26,15 @@ RUN apt install -y --no-install-recommends \
     libgrpc++-dev \
     pkg-config \
     protobuf-compiler-grpc \
+    moreutils \
     && apt-file update
 
+# Install latest Opentelemetry C++ with ABI v2 support
+RUN git clone https://github.com/open-telemetry/opentelemetry-cpp.git /tmp/opentelemetry-cpp \
+ && cmake -S /tmp/opentelemetry-cpp -B /tmp/opentelemetry-cpp/build -DWITH_ABI_VERSION_2=ON -DWITH_ABI_VERSION_1=OFF \
+ && make -C /tmp/opentelemetry-cpp/build -j$(nproc) \
+ && make -C /tmp/opentelemetry-cpp/build install \
+ && rm -rf /tmp/opentelemetry-cpp
 
  # Install C++ MQTT
 RUN wget -O /tmp/mqtt5-master.zip \

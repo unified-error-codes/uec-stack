@@ -4,6 +4,12 @@ project(uec-evse VERSION 0.1.0 DESCRIPTION "UEC EVSE diagnostic components" LANG
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_compile_options(
+    $<$<CONFIG:Debug>:-Wall>
+    $<$<CONFIG:Debug>:-Werror>
+    $<$<CONFIG:Debug>:-O0>
+)
+
 add_compile_definitions(
     RAPIDJSON_HAS_STDSTRING=1
     OPENTELEMETRY_ABI_VERSION_NO=2)
@@ -16,8 +22,13 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(uec-telemetry STATIC
     src/telemetry/control_pilot.cpp
 )
+target_link_libraries(uec-telemetry
+    opentelemetry-cpp::metrics)
 
 add_executable(uec-evse
     src/everest.cpp
     src/main.cpp)
-target_link_libraries(uec-evse uec-telemetry)
+target_link_libraries(uec-evse
+    uec-telemetry
+    opentelemetry-cpp::metrics
+    opentelemetry-cpp::ostream_metrics_exporter)
