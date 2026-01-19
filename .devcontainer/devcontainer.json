@@ -1,7 +1,8 @@
 {
   "runArgs": ["--name", "uec-devcontainer", "--network", "host"],
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "context": ".."
   },
   "customizations": {
     "vscode": {
