@@ -1,0 +1,21 @@
+{
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspaces/csds",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "twxs.cmake",
+        "ms-vscode.cmake-tools",
+        "ms-python.python",
+        "lextudio.restructuredtext",
+        "trond-snekvik.simple-rst",
+        "ritwickdey.liveserver",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-python.black-formatter",
+        "cheshirekow.cmake-format"
+      ]
+    }
+  }
+}

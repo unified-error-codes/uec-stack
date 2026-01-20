@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: uec_csds
+      POSTGRES_USER: uec
+      POSTGRES_PASSWORD: uec
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  devcontainer:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile.dev
+    volumes:
+      - type: bind
+        source: ..
+        target: /workspaces/csds
+    command: sleep infinity
+    environment:
+      DATABASE_URL: postgresql://uec:uec@postgres:5432/uec_csds
+
+volumes:
+  pgdata:

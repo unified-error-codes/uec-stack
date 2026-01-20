@@ -43,6 +43,7 @@ RUN wget -O /tmp/mqtt5-master.zip \
  && cp -a /tmp/mqtt5-master/include/boost /usr/local/include/ \
  && rm -rf /tmp/mqtt5-master /tmp/mqtt5-master.zip
 
+# Add vscode user and give sudo access
 RUN if ! id -u vscode > /dev/null 2>&1; then \
         useradd -m -s /bin/bash vscode; \
     fi \

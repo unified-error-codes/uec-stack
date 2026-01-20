@@ -8,3 +8,6 @@ csds-ui/build/
 
 evse-agent/build/
 evse-agent/.cache/
+
+# Pyython
+__pycache__/
