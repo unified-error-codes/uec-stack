@@ -12,6 +12,7 @@
     "test": "log: echo this should run tests but it currently doesn't"
   },
   "dependencies": {
+    "@base-ui/react": "^1.0.0",
     "@eslint/json": "^0.14.0",
     "@react-router/node": "7.10.1",
     "@react-router/serve": "7.10.1",
