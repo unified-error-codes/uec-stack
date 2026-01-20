@@ -27,6 +27,17 @@ from ..utils import read_diagnostic_file
 from ..engine import Engine
 from typing import cast
 
+def get_error_code(sn: call.StatusNotification) -> str:
+    return (
+        sn.error_code
+        if sn.error_code != ChargePointErrorCode.other_error
+        else sn.vendor_error_code or "Unknown Error"
+    )
+
+
+def or_now(ts: Optional[str]) -> str:
+    return ts or datetime.now(timezone.utc).isoformat()
+
 
 class ChargePoint16(cp):
     def __init__(self, ftp, engine, *args, **kwargs):
@@ -55,7 +66,7 @@ class ChargePoint16(cp):
 
     @on(Action.authorize)
     def on_authorize(self, **kwargs):
-        id_tag_info = IdTagInfo(status=AuthorizationStatusEnumType.accepted)  # type: ignore
+        id_tag_info = IdTagInfo(status=AuthorizationStatusEnumType.accepted)
         return call_result.Authorize(id_tag_info=id_tag_info)
 
     @on(Action.meter_values)
@@ -176,13 +187,13 @@ class ChargePoint16(cp):
     async def get_composite_schedule(
         self, payload: call.GetCompositeSchedule
     ) -> call_result.GetCompositeSchedule:
-        return await self.call(payload)  # type: ignore
+        return await self.call(payload)
 
     async def get_composite_schedule_req(
         self, **kwargs
     ) -> call_result.GetCompositeSchedule:
         payload = call.GetCompositeSchedule(**kwargs)
-        return await self.call(payload)  # type: ignore
+        return await self.call(payload)
 
     async def clear_charging_profile_req(self, **kwargs):
         payload = call.ClearChargingProfile(**kwargs)
@@ -234,18 +245,37 @@ class ChargePoint16(cp):
                 )
             ),
         )
-
         await self._diagnostics_upload_future
         if result.file_name:
             return self._ftp.get_pathname(result.file_name)
         raise Exception("No diagnostic file name received")
 
     async def handle_status_notification(self, sn: call.StatusNotification):
+        if sn.status == ChargePointStatus.available:
+            session = self._sessions.get(sn.connector_id)
+
+            if session and not session.has_entered_charging():
+                session.ended_silent(
+                    or_now(sn.timestamp),
+
+                    "PREPARING_ABORTED_BEFORE_CHARGING",
+                )
+                await self._engine.handle_failed_session(
+                    cast(Session, session),
+                )
+            self._sessions.pop(sn.connector_id, None)
+
         if sn.status == ChargePointStatus.preparing:
             self._sessions[sn.connector_id] = Session(
                 self,
                 or_now(sn.timestamp),
+
             )
+        if sn.status == ChargePointStatus.charging:
+            session = self._sessions.get(sn.connector_id)
+            if session:
+                session.mark_entered_charging()
+
         if sn.status == ChargePointStatus.faulted:
             session = self._sessions.get(sn.connector_id)
             if not session:
@@ -253,8 +283,9 @@ class ChargePoint16(cp):
                 self._sessions[sn.connector_id] = session
             session.ended(or_now(sn.timestamp), get_error_code(sn))
             await self._engine.handle_failed_session(
-                cast(Session, session),
+                cast(Session, session)
             )
+            self._sessions.pop(sn.connector_id, None)
 
 
 class Session:
@@ -263,10 +294,21 @@ class Session:
         self._end_timestamp = ""
         self._start_timestamp = timestamp
         self._error_code = ""
+        self._has_entered_charging = False
+
+    def mark_entered_charging(self):
+        self._has_entered_charging = True
+
+    def has_entered_charging(self) -> bool:
+        return self._has_entered_charging
 
     def ended(self, timestamp: str, error_code: str):
         self._end_timestamp = timestamp
         self._error_code = error_code
+
+    def ended_silent(self, timestamp: str, reason: str):
+        self._end_timestamp = timestamp
+        self._error_code = reason
 
     async def get_diagnostic(self) -> str:
         pathname = await self._charger.get_diagnostic(self._start_timestamp)
@@ -280,15 +322,3 @@ class Session:
 
     def error_code(self) -> str:
         return self._error_code
-
-
-def or_now(ts: Optional[str]) -> str:
-    return ts or datetime.now(timezone.utc).isoformat()
-
-
-def get_error_code(sn: call.StatusNotification) -> str:
-    return (
-        sn.error_code
-        if sn.error_code != ChargePointErrorCode.other_error
-        else sn.vendor_error_code or "Unknown Error"
-    )
