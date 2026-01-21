@@ -9,6 +9,7 @@ import {
 export default [
   layout('routes/layout.tsx', [
     index('routes/home.tsx'),
+    route('charger-unit', 'routes/charger-unit.tsx'),
     ...prefix('sessions', [
       index('routes/sessions.tsx'),
       route(':sessionId', 'routes/session-details.tsx'),
