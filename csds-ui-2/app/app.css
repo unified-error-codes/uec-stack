@@ -1,16 +1,21 @@
+/* import Roboto Flex font from Google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,XOPQ,XTRA,YOPQ,YTDE,YTFI,YTLC,YTUC@8..144,100..1000,96,468,79,-203,738,514,712&display=swap" rel="stylesheet');
 @import 'tailwindcss';
 
 @theme {
   --font-sans:
-    'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    'Roboto Flex', 'Inter', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  background: var(--color-white);
+  font-weight: var(--font-weight-light);
+  box-sizing: border-box;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
+    background-color: var(--color-gray-950);
   }
 }

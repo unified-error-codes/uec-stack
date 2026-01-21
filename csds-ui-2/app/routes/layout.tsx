@@ -1,6 +1,6 @@
 import { Radio, RadioGroup } from '@base-ui/react'
 import React from 'react'
-import { Outlet } from 'react-router'
+import { ThreeRowsFrame, TwoColumnsFrame } from '~/ui/templates'
 
 export default function Layout() {
   const [displayedLayout, setLayout] = React.useState(1)
@@ -8,9 +8,9 @@ export default function Layout() {
   return (
     <div className={`grid h-screen grid-rows-[40px_1fr] content-start`}>
       <LayoutSwitch setChecked={setLayout} />
-      <div>
-        <Outlet />
-      </div>
+      {displayedLayout === 0 ?
+        <ThreeRowsFrame />
+      : <TwoColumnsFrame />}
     </div>
   )
 }
