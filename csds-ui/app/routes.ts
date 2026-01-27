@@ -1,16 +1,17 @@
 import {
   type RouteConfig,
-  route,
   index,
+  route,
   layout,
-} from "@react-router/dev/routes";
+  prefix,
+} from '@react-router/dev/routes'
 
 export default [
-  layout("layouts/menu.tsx", [
-    index("routes/home.tsx"),
-    route("live-data", "routes/live-data.tsx"),
-    route("errors-warnings", "routes/errors-warnings.tsx"),
-    route("sessions", "routes/sessions.tsx"),
-    route("trends", "routes/trends.tsx"),
+  layout('routes/layout.tsx', [
+    index('routes/home.tsx'),
+    ...prefix('sessions', [
+      index('routes/sessions.tsx'),
+      route(':sessionId', 'routes/session-details.tsx'),
+    ]),
   ]),
-] satisfies RouteConfig;
+] satisfies RouteConfig

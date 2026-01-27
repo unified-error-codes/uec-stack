@@ -1,0 +1,17 @@
+{
+  "trailingComma": "es5",
+  "semi": false,
+  "singleQuote": true,
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "experimentalTernaries": true,
+  "jsxSingleQuote": true,
+  "objectWrap": "preserve",
+  "printWidth": 80,
+  "quoteProps": "consistent",
+  "tabWidth": 2,
+  "useTabs": false,
+  "arrowParens": "always",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindStylesheet": "./app/app.css"
+}
