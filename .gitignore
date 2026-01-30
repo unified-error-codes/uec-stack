@@ -1,13 +1,47 @@
-csds-ui/.DS_Store
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+.idea/
+.vscode/
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+
+# =========================
+# Databases / local state
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Node / Frontend
+# =========================
+node_modules/
+build/
+dist/
+.react-router/
+
+# Frontend env
+.env
+.env.local
+
+# =========================
+# Project-specific
+# =========================
 csds-ui/.env
-csds-ui/node_modules/
-
-# React Router
-csds-ui/.react-router/
 csds-ui/build/
-
 evse-agent/build/
 evse-agent/.cache/
-
-# Pyython
-__pycache__/

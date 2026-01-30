@@ -1,9 +1,13 @@
 from fastapi import APIRouter, Query, Request, Depends
 from .schemas import FaultedSessionsResponse
 from uec_csds.db.database import Database
+from uec_csds.auth.middleware import require_scopes
 
 router = APIRouter()
 
+@router.get("/sessions", dependencies=[Depends(require_scopes({"sessions:read"}))])
+async def list_sessions():
+    return {"sessions": []}
 
 def get_database(request: Request) -> Database:
     return request.app.state.db
