@@ -3,6 +3,8 @@
 #include <boost/mqtt5/types.hpp>
 #include <rapidjson/document.h>
 // #include <unordered_map>
+#include <cstdint>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -34,9 +36,14 @@ private:
   bool handle_recv_error(boost::mqtt5::error_code ec);
   void handle_telemetry_data(const std::string &topic,
                              const std::string &payload);
+  void write_to_mcap(const std::string &channel_name, uint64_t timestamp,
+                     double value);
+  void init_mcap_file();
 
   mqtt::client &_client;
   std::vector<telemetry_config> telemetry_configs;
+  std::ofstream mcap_file;
+  uint16_t next_channel_id = 1;
 };
 
 } // namespace uec

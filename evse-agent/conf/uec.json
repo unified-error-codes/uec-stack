@@ -7,8 +7,7 @@
       "id": "cp.volate.positive",
       "source": {
         "topic": "everest-telemetry/livedata/1/power_path_controller",
-        "data_path": "cp_voltage_positive",
-        "timestamp_path": "timestamp"
+        "value_path": "cp_voltage_positive"
       },
       "unit": "V",
       "description": "Control Pilot Voltage Positive"
