@@ -27,6 +27,7 @@ target_link_libraries(uec-telemetry
 
 add_executable(uec-evse
     src/everest.cpp
+    src/config_yaml.cpp
     src/main.cpp)
 target_link_libraries(uec-evse
     uec-telemetry
