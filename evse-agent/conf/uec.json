@@ -1,0 +1,16 @@
+{
+  "mqtt": {
+    "broker_url": "localhost:1883"
+  },
+  "telemetry": [
+    {
+      "id": "cp.volate.positive",
+      "source": {
+        "topic": "everest-telemetry/livedata/1/power_path_controller",
+        "value_path": "cp_voltage_positive"
+      },
+      "unit": "V",
+      "description": "Control Pilot Voltage Positive"
+    }
+  ]
+}
