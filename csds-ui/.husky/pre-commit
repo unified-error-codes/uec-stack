@@ -1,0 +1,8 @@
+# .git file is in parent folder so husky "prepare" script goes there to start and here we need to go back to proper folder to execute commands
+cd csds-ui
+
+echo "pre-commit hook:"
+pnpm exec lint-staged
+
+# echo "husky testing mode - comment this and next line to commit"
+# exit 1
