@@ -4,6 +4,12 @@ import os
 import asyncio
 from uec_csds.csds import run
 
+from uec_csds.api.api import create_app
+from uec_csds.db.database import Database
+
+db = Database()
+app = create_app(db)
+
 
 def configure_logging():
     logging.basicConfig(
