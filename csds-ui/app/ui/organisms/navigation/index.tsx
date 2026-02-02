@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLinkItem } from './nav-items'
+import { NavLinkItem } from '../../molecules/nav-items'
 import { NavigationMenu } from '@base-ui/react'
 
 type MainNavigationProps = React.ComponentProps<'nav'> & {

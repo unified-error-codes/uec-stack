@@ -1,4 +1,5 @@
 import { HomeContent } from '~/ui/templates/outlets/home'
-export default function Home({ loaderData, actionData, params, matches }: any) {
+
+export default function Home() {
   return <HomeContent />
 }

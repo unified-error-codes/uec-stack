@@ -8,8 +8,7 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "prettier": "pnpm prettier . --check",
-    "prepare": "cd .. && husky csds-ui-2/.husky",
-    "test": "log: echo this should run tests but it currently doesn't"
+    "prepare": "husky .husky"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",

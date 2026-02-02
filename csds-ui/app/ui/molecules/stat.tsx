@@ -2,6 +2,7 @@ type StatProps = {
   value?: string | number
   label: string
 } & React.ComponentProps<'div'>
+
 export const Stat: React.FC<StatProps> = ({ value, label, className = '' }) => {
   return (
     <div className={`flex flex-col ${className}`}>

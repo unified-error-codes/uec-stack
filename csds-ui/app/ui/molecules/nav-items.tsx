@@ -22,7 +22,7 @@ export const NavLinkItem: React.FC<NavLinkItemProps> = ({
   ...rest
 }) => {
   const [statefulStyles, setStatefulStyles] = React.useState('')
-  const selectedStyles = 'bg-blue-200 hover:bg-blue-200 hover:outline-'
+  const selectedStyles = 'bg-blue-200 hover:bg-blue-200'
 
   const pathNameMatch = useMatch(matchPattern)
 
