@@ -7,8 +7,7 @@
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
-    "prettier": "pnpm prettier . --check",
-    "prepare": "husky .husky"
+    "prettier": "pnpm prettier . --check"
   },
   "dependencies": {
     "@base-ui/react": "^1.0.0",

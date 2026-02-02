@@ -4,5 +4,5 @@ cd csds-ui
 echo "pre-commit hook:"
 pnpm exec lint-staged
 
-#echo "husky testing mode - comment this and next line to commit"
-#sexit 1
+# echo "husky testing mode - comment this and next line to commit"
+# exit 1
